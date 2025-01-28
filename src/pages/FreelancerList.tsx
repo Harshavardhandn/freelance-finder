@@ -18,7 +18,11 @@ interface Freelancer {
 
 const SKILLS = [
   "React", "Node.js", "UI/UX", "React Native", "Android", "iOS",
-  "Content Creation", "Graphic Design", "Machine Learning", "Data Science",
+  "Content Creation"
+];
+
+const ADDITIONAL_SKILLS = [
+  "Graphic Design", "Machine Learning", "Data Science",
   "AWS", "DevOps", "Blockchain", "Game Design", "Cybersecurity", "3D Animation"
 ];
 
@@ -59,7 +63,10 @@ const FreelancerList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
-  const [budget, setBudget] = useState([0]);
+  const [budget, setBudget] = useState([200]);
+  const [showAllSkills, setShowAllSkills] = useState(false);
+
+  const displayedSkills = showAllSkills ? [...SKILLS, ...ADDITIONAL_SKILLS] : SKILLS;
 
   const filteredFreelancers = FREELANCERS.filter((freelancer) => {
     const matchesSearch = freelancer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,7 +100,7 @@ const FreelancerList = () => {
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg">Skills</h3>
                 <div className="grid grid-cols-1 gap-2">
-                  {SKILLS.map((skill) => (
+                  {displayedSkills.map((skill) => (
                     <div key={skill} className="flex items-center space-x-2">
                       <Checkbox
                         id={skill}
@@ -111,6 +118,14 @@ const FreelancerList = () => {
                       </label>
                     </div>
                   ))}
+                  {!showAllSkills && (
+                    <button
+                      onClick={() => setShowAllSkills(true)}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-2"
+                    >
+                      + More
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -141,7 +156,7 @@ const FreelancerList = () => {
               <div className="mt-6 space-y-4">
                 <h3 className="font-semibold text-lg">Maximum Budget ($/hr)</h3>
                 <Slider
-                  defaultValue={[100]}
+                  defaultValue={[200]}
                   max={200}
                   step={5}
                   value={budget}

@@ -14,6 +14,7 @@ interface Freelancer {
   budget: number;
   rating: number;
   image: string;
+  experienceLevel: string;
 }
 
 const SKILLS = [
@@ -36,7 +37,8 @@ const FREELANCERS: Freelancer[] = [
     skills: ["React", "UI/UX", "React Native"],
     budget: 75,
     rating: 4.8,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
+    experienceLevel: "Expert"
   },
   {
     id: "2",
@@ -45,7 +47,8 @@ const FREELANCERS: Freelancer[] = [
     skills: ["React", "Node.js", "AWS"],
     budget: 95,
     rating: 4.9,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
+    experienceLevel: "Expert"
   },
   {
     id: "3",
@@ -54,7 +57,8 @@ const FREELANCERS: Freelancer[] = [
     skills: ["UI/UX", "Graphic Design", "Content Creation"],
     budget: 65,
     rating: 4.7,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
+    experienceLevel: "Intermediate"
   }
 ];
 
@@ -75,9 +79,12 @@ const FreelancerList = () => {
     const matchesSkills = selectedSkills.length === 0 || 
       selectedSkills.some(skill => freelancer.skills.includes(skill));
     
+    const matchesLevels = selectedLevels.length === 0 ||
+      selectedLevels.includes(freelancer.experienceLevel);
+    
     const matchesBudget = freelancer.budget <= budget[0];
 
-    return matchesSearch && matchesSkills && matchesBudget;
+    return matchesSearch && matchesSkills && matchesLevels && matchesBudget;
   });
 
   return (
@@ -188,6 +195,7 @@ const FreelancerList = () => {
                     <div className="flex-1">
                       <h3 className="text-xl font-semibold">{freelancer.name}</h3>
                       <p className="text-gray-600">{freelancer.expertise}</p>
+                      <p className="text-sm text-gray-500">{freelancer.experienceLevel}</p>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {freelancer.skills.map((skill) => (
                           <span
